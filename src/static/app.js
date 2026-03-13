@@ -569,6 +569,14 @@ document.addEventListener("DOMContentLoaded", () => {
         `
         }
       </div>
+      <div class="share-section">
+        <span class="share-label">Share:</span>
+        <div class="share-buttons">
+          <button class="share-btn share-whatsapp" title="Share on WhatsApp" aria-label="Share on WhatsApp" data-activity="${name}">📱 WhatsApp</button>
+          <button class="share-btn share-twitter" title="Share on X (Twitter)" aria-label="Share on X (Twitter)" data-activity="${name}">🐦 X</button>
+          <button class="share-btn share-copy" title="Copy activity info" aria-label="Copy activity info to clipboard" data-activity="${name}">🔗 Copy</button>
+        </div>
+      </div>
     `;
 
     // Add click handlers for delete buttons
@@ -586,6 +594,62 @@ document.addEventListener("DOMContentLoaded", () => {
         });
       }
     }
+
+    // Add click handlers for share buttons
+    const shareText = `Check out "${name}" at Mergington High School!\n${details.description}\nSchedule: ${formattedSchedule}`;
+    const pageUrl = window.location.href;
+
+    activityCard.querySelector(".share-whatsapp").addEventListener("click", () => {
+      window.open(`https://wa.me/?text=${encodeURIComponent(shareText + "\n" + pageUrl)}`, "_blank", "noopener");
+    });
+
+    activityCard.querySelector(".share-twitter").addEventListener("click", () => {
+      window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(pageUrl)}`, "_blank", "noopener");
+    });
+
+    activityCard.querySelector(".share-copy").addEventListener("click", (e) => {
+      const btn = e.currentTarget;
+      const original = btn.textContent;
+
+      const updateBtn = () => {
+        btn.textContent = "✅ Copied!";
+        btn.setAttribute("aria-label", "Copied!");
+        setTimeout(() => {
+          btn.textContent = original;
+          btn.setAttribute("aria-label", "Copy activity info to clipboard");
+        }, 2000);
+      };
+
+      if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(shareText + "\n" + pageUrl).then(updateBtn).catch(() => {
+          execCommandFallback();
+        });
+      } else {
+        execCommandFallback();
+      }
+
+      function execCommandFallback() {
+        try {
+          const ta = document.createElement("textarea");
+          ta.value = shareText + "\n" + pageUrl;
+          ta.style.position = "fixed";
+          ta.style.opacity = "0";
+          document.body.appendChild(ta);
+          ta.select();
+          const success = document.execCommand("copy");
+          document.body.removeChild(ta);
+          if (success) {
+            updateBtn();
+          } else {
+            btn.textContent = "❌ Copy failed";
+            setTimeout(() => { btn.textContent = original; }, 2000);
+          }
+        } catch {
+          btn.textContent = "❌ Copy failed";
+          setTimeout(() => { btn.textContent = original; }, 2000);
+        }
+      }
+    });
 
     activitiesList.appendChild(activityCard);
   }

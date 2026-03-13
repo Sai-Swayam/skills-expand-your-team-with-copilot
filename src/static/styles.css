@@ -476,6 +476,73 @@ footer {
   font-size: 0.8rem;
 }
 
+/* Social sharing buttons */
+.share-section {
+  margin-top: 10px;
+  padding-top: 8px;
+  border-top: 1px solid var(--border-light);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.share-label {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.share-buttons {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.share-btn {
+  font-size: 0.7rem;
+  padding: 3px 8px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.share-whatsapp {
+  background-color: #25d366;
+  color: #ffffff;
+  border-color: #25d366;
+}
+
+.share-whatsapp:hover {
+  background-color: #1ebe5d;
+  border-color: #1ebe5d;
+}
+
+.share-twitter {
+  background-color: #000000;
+  color: #ffffff;
+  border-color: #000000;
+}
+
+.share-twitter:hover {
+  background-color: #333333;
+  border-color: #333333;
+}
+
+.share-copy {
+  background-color: var(--background);
+  color: var(--text-primary);
+  border-color: var(--border);
+}
+
+.share-copy:hover {
+  background-color: var(--border);
+}
+
 /* Search and Filter Components - Updated for Sidebar */
 .search-box {
   display: flex;
